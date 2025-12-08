@@ -19,20 +19,12 @@ public class CameraFollow : MonoBehaviour
     
     private void Start()
     {
-        // Если цель не установлена, ищем игрока по тегу
+        // Если цель не установлена, ищем игрока через утилиту (DRY принцип)
         if (target == null)
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
-            {
-                target = player.transform;
-            }
-            else
-            {
-                Debug.LogWarning("CameraFollow: Игрок не найден! Установите цель вручную или добавьте тег 'Player' к игроку.");
-            }
+            target = GameObjectFinder.FindPlayerTransform();
         }
-        
+
         // Устанавливаем начальную позицию камеры
         if (target != null)
         {

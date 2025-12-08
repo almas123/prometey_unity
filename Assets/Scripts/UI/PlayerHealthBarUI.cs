@@ -3,27 +3,27 @@ using UnityEngine.UI;
 
 public class PlayerHealthBarUI : MonoBehaviour
 {
+    [SerializeField] private RectTransform fillTransform;
     [SerializeField] private Image fillImage;
     [SerializeField] private Character playerCharacter;
 
+    private float maxWidth;
+
     private void Start()
     {
+        // Если игрок не назначен, ищем через утилиту (DRY принцип)
         if (playerCharacter == null)
         {
-            playerCharacter = FindObjectOfType<PlayerCharacter>();
-            if (playerCharacter != null)
-            {
-                Debug.Log($"PlayerHealthBarUI: Player найден автоматически - {playerCharacter.name}");
-            }
+            playerCharacter = GameObjectFinder.FindPlayer<Character>();
         }
 
-        if (fillImage == null)
+        if (fillTransform == null)
         {
-            Debug.LogError("PlayerHealthBarUI: Fill Image не назначен!");
+            Debug.LogError("PlayerHealthBarUI: Fill Transform не назначен!");
         }
         else
         {
-            Debug.Log("PlayerHealthBarUI: Fill Image назначен!");
+            maxWidth = fillTransform.sizeDelta.x;
         }
 
         if (playerCharacter == null)
@@ -33,10 +33,6 @@ public class PlayerHealthBarUI : MonoBehaviour
         else if (playerCharacter.HealthComponent == null)
         {
             Debug.LogError("PlayerHealthBarUI: У Player нет HealthComponent!");
-        }
-        else
-        {
-            Debug.Log($"PlayerHealthBarUI: Всё OK! HP: {playerCharacter.HealthComponent.Health}/{playerCharacter.HealthComponent.MaxHealth}");
         }
     }
 
@@ -50,15 +46,17 @@ public class PlayerHealthBarUI : MonoBehaviour
 
     private void UpdateHealthBar()
     {
-        if (fillImage == null)
+        if (fillTransform == null)
             return;
 
         float healthPercentage = playerCharacter.HealthComponent.Health / playerCharacter.HealthComponent.MaxHealth;
 
-        fillImage.fillAmount = healthPercentage;
-        fillImage.color = Color.Lerp(Color.red, Color.green, healthPercentage);
+        Vector2 sizeDelta = fillTransform.sizeDelta;
+        sizeDelta.x = maxWidth * healthPercentage;
+        fillTransform.sizeDelta = sizeDelta;
 
-        Debug.Log($"Health: {playerCharacter.HealthComponent.Health}, Percentage: {healthPercentage}, FillAmount: {fillImage.fillAmount}");
+        if (fillImage != null)
+            fillImage.color = Color.Lerp(Color.red, Color.green, healthPercentage);
     }
 
     public void SetPlayer(Character player)

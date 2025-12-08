@@ -59,4 +59,28 @@ public class EnemyCharacter : Character
 
         AttackComponent.MakeDamage(characterTarget);
     }
+
+    /// <summary>
+    /// Устанавливает цель для AI врага.
+    /// Публичный API вместо использования рефлексии (KISS принцип).
+    /// </summary>
+    /// <param name="target">Цель для преследования и атаки</param>
+    public void SetTarget(Character target)
+    {
+        characterTarget = target;
+
+        // Переинициализируем AI компонент с новой целью
+        if (InputComponent is AiInputComponent aiInput)
+        {
+            aiInput.Initialize(this, target);
+        }
+    }
+
+    /// <summary>
+    /// Получить текущую цель врага.
+    /// </summary>
+    public Character GetTarget()
+    {
+        return characterTarget;
+    }
 }
