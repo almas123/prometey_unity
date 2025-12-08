@@ -19,7 +19,7 @@ public abstract class Character : MonoBehaviour
         AttackComponent.Initialize(this);
     }
 
-    private void Start()
+    private void Awake()
     {
         Init();
     }
