@@ -4,7 +4,7 @@ public class AttackComponent : IAttackComponent
 {
     public float Damage => 10;
     public float AttackRange => 2;
-    public float AttackZone => 5;
+    public float AttackZone => 30;
 
     private Character character;
     private float lastAttackTime;
