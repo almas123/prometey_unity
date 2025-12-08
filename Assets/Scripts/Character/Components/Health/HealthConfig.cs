@@ -1,9 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// Health parameters configuration.
-/// ScriptableObject allows creating different health profiles (Open/Closed Principle).
-/// </summary>
 [CreateAssetMenu(fileName = "HealthConfig", menuName = "Configs/Character/Health Config")]
 public class HealthConfig : ScriptableObject
 {
@@ -19,7 +15,6 @@ public class HealthConfig : ScriptableObject
 
     private void OnValidate()
     {
-        // Validate values
         if (maxHealth < 1f)
             maxHealth = 1f;
 

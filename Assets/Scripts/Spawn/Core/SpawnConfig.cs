@@ -1,9 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// Base configuration for spawn system.
-/// ScriptableObject allows configuring spawner via Unity Editor (Open/Closed Principle).
-/// </summary>
 [CreateAssetMenu(fileName = "SpawnConfig", menuName = "Configs/Spawn/Spawn Config", order = 0)]
 public class SpawnConfig : ScriptableObject
 {
@@ -24,7 +20,6 @@ public class SpawnConfig : ScriptableObject
 
     private void OnValidate()
     {
-        // Validate values
         if (spawnInterval < 0.1f)
             spawnInterval = 0.1f;
 

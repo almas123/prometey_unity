@@ -11,7 +11,6 @@ public class PlayerHealthBarUI : MonoBehaviour
 
     private void Start()
     {
-        // If player is not assigned, find via utility (DRY principle)
         if (playerCharacter == null)
         {
             playerCharacter = GameObjectFinder.FindPlayer<Character>();

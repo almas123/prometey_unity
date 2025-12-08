@@ -1,10 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// Displays game time and current difficulty information on HUD.
-/// Automatically finds CharacterSpawnController to get game time.
-/// </summary>
 public class GameTimerUI : MonoBehaviour
 {
     [Header("UI References")]
@@ -20,7 +16,6 @@ public class GameTimerUI : MonoBehaviour
 
     private void Start()
     {
-        // Find spawn controller in scene
         spawnController = FindObjectOfType<CharacterSpawnController>();
 
         if (spawnController == null)
@@ -52,9 +47,6 @@ public class GameTimerUI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Updates timer text with formatted game time.
-    /// </summary>
     private void UpdateTimerDisplay()
     {
         if (timerText == null)
@@ -65,9 +57,6 @@ public class GameTimerUI : MonoBehaviour
         timerText.text = timePrefix + formattedTime;
     }
 
-    /// <summary>
-    /// Updates enemy count text with current/max enemies.
-    /// </summary>
     private void UpdateEnemyCountDisplay()
     {
         if (enemyCountText == null)
@@ -78,11 +67,6 @@ public class GameTimerUI : MonoBehaviour
         enemyCountText.text = $"{enemyPrefix}{currentEnemies}/{maxEnemies}";
     }
 
-    /// <summary>
-    /// Formats time in seconds to MM:SS format.
-    /// </summary>
-    /// <param name="timeInSeconds">Time to format</param>
-    /// <returns>Formatted time string (MM:SS)</returns>
     private string FormatTime(float timeInSeconds)
     {
         int minutes = Mathf.FloorToInt(timeInSeconds / 60f);
@@ -90,9 +74,6 @@ public class GameTimerUI : MonoBehaviour
         return string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
-    /// <summary>
-    /// Manually set spawn controller reference.
-    /// </summary>
     public void SetSpawnController(CharacterSpawnController controller)
     {
         spawnController = controller;

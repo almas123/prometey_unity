@@ -1,9 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// Character spawn configuration.
-/// Inherits base configuration and adds character-specific parameters.
-/// </summary>
 [CreateAssetMenu(fileName = "CharacterSpawnConfig", menuName = "Configs/Spawn/Character Spawn Config", order = 1)]
 public class CharacterSpawnConfig : SpawnConfig
 {
@@ -23,7 +19,6 @@ public class CharacterSpawnConfig : SpawnConfig
 
     private void OnValidate()
     {
-        // Validate values
         if (startingMaxEnemies < 1)
             startingMaxEnemies = 1;
 

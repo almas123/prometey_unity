@@ -1,9 +1,5 @@
 using UnityEngine;
 
-/// <summary>
-/// Attack parameters configuration.
-/// ScriptableObject allows creating different attack profiles (Open/Closed Principle).
-/// </summary>
 [CreateAssetMenu(fileName = "AttackConfig", menuName = "Configs/Character/Attack Config")]
 public class AttackConfig : ScriptableObject
 {
@@ -29,7 +25,6 @@ public class AttackConfig : ScriptableObject
 
     private void OnValidate()
     {
-        // Validate values
         if (damage < 0f)
             damage = 0f;
 

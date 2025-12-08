@@ -6,7 +6,6 @@ public class AttackComponent : IAttackComponent
     private Character character;
     private float lastAttackTime;
 
-    // Default values for backward compatibility
     private const float DefaultDamage = 10f;
     private const float DefaultAttackRange = 2f;
     private const float DefaultAttackZone = 30f;
@@ -38,9 +37,6 @@ public class AttackComponent : IAttackComponent
         this.character = character;
     }
 
-    /// <summary>
-    /// Initialize with configuration.
-    /// </summary>
     public void Initialize(Character character, AttackConfig attackConfig)
     {
         this.character = character;

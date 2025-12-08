@@ -1,18 +1,9 @@
 using UnityEngine;
 
-/// <summary>
-/// Centralized utility for finding game objects.
-/// Eliminates code duplication for player finding (DRY principle).
-/// </summary>
 public static class GameObjectFinder
 {
     private const string PlayerTag = "Player";
 
-    /// <summary>
-    /// Finds player and returns component of specified type.
-    /// </summary>
-    /// <typeparam name="T">Component type to find</typeparam>
-    /// <returns>Player component or null if not found</returns>
     public static T FindPlayer<T>() where T : Component
     {
         GameObject player = GameObject.FindGameObjectWithTag(PlayerTag);
@@ -32,10 +23,6 @@ public static class GameObjectFinder
         return component;
     }
 
-    /// <summary>
-    /// Finds player Transform.
-    /// </summary>
-    /// <returns>Player Transform or null if not found</returns>
     public static Transform FindPlayerTransform()
     {
         GameObject player = GameObject.FindGameObjectWithTag(PlayerTag);
@@ -48,10 +35,6 @@ public static class GameObjectFinder
         return player.transform;
     }
 
-    /// <summary>
-    /// Finds player GameObject.
-    /// </summary>
-    /// <returns>Player GameObject or null if not found</returns>
     public static GameObject FindPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag(PlayerTag);

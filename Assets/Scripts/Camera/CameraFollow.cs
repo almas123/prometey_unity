@@ -19,13 +19,11 @@ public class CameraFollow : MonoBehaviour
     
     private void Start()
     {
-        // If target not set, find player via utility (DRY principle)
         if (target == null)
         {
             target = GameObjectFinder.FindPlayerTransform();
         }
 
-        // Set initial camera position
         if (target != null)
         {
             transform.position = target.position + offset;
@@ -37,34 +35,28 @@ public class CameraFollow : MonoBehaviour
         if (target == null)
             return;
 
-        // Calculate desired camera position
         Vector3 desiredPosition = target.position + offset;
 
-        // Apply bounds if enabled
         if (useBounds)
         {
             desiredPosition.x = Mathf.Clamp(desiredPosition.x, minX, maxX);
             desiredPosition.z = Mathf.Clamp(desiredPosition.z, minZ, maxZ);
         }
 
-        // Smoothly move camera to desired position
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
         transform.position = smoothedPosition;
 
-        // Rotate camera towards target if enabled
         if (lookAtTarget)
         {
             transform.LookAt(target);
         }
     }
 
-    // Method to change target during gameplay
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
     }
 
-    // Method to change camera offset
     public void SetOffset(Vector3 newOffset)
     {
         offset = newOffset;

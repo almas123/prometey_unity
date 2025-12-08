@@ -60,25 +60,16 @@ public class EnemyCharacter : Character
         AttackComponent.MakeDamage(characterTarget);
     }
 
-    /// <summary>
-    /// Sets target for enemy AI.
-    /// Public API instead of using reflection (KISS principle).
-    /// </summary>
-    /// <param name="target">Target to chase and attack</param>
     public void SetTarget(Character target)
     {
         characterTarget = target;
 
-        // Reinitialize AI component with new target
         if (InputComponent is AiInputComponent aiInput)
         {
             aiInput.Initialize(this, target);
         }
     }
 
-    /// <summary>
-    /// Get current enemy target.
-    /// </summary>
     public Character GetTarget()
     {
         return characterTarget;
