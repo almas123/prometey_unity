@@ -1,17 +1,17 @@
 using UnityEngine;
 
 /// <summary>
-/// Конфигурация параметров здоровья.
-/// ScriptableObject позволяет создавать разные профили здоровья (Open/Closed Principle).
+/// Health parameters configuration.
+/// ScriptableObject allows creating different health profiles (Open/Closed Principle).
 /// </summary>
 [CreateAssetMenu(fileName = "HealthConfig", menuName = "Configs/Character/Health Config")]
 public class HealthConfig : ScriptableObject
 {
     [Header("Health")]
-    [Tooltip("Максимальное количество здоровья")]
+    [Tooltip("Maximum health amount")]
     [SerializeField] private float maxHealth = 100f;
 
-    [Tooltip("Начальное количество здоровья (если меньше maxHealth, персонаж начнет раненым)")]
+    [Tooltip("Starting health amount (if less than maxHealth, character starts wounded)")]
     [SerializeField] private float startHealth = 100f;
 
     public float MaxHealth => maxHealth;
@@ -19,7 +19,7 @@ public class HealthConfig : ScriptableObject
 
     private void OnValidate()
     {
-        // Валидация значений
+        // Validate values
         if (maxHealth < 1f)
             maxHealth = 1f;
 

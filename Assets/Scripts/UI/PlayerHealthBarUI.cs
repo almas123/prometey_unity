@@ -11,7 +11,7 @@ public class PlayerHealthBarUI : MonoBehaviour
 
     private void Start()
     {
-        // Если игрок не назначен, ищем через утилиту (DRY принцип)
+        // If player is not assigned, find via utility (DRY principle)
         if (playerCharacter == null)
         {
             playerCharacter = GameObjectFinder.FindPlayer<Character>();
@@ -19,7 +19,7 @@ public class PlayerHealthBarUI : MonoBehaviour
 
         if (fillTransform == null)
         {
-            Debug.LogError("PlayerHealthBarUI: Fill Transform не назначен!");
+            Debug.LogError("PlayerHealthBarUI: Fill Transform not assigned!");
         }
         else
         {
@@ -28,11 +28,11 @@ public class PlayerHealthBarUI : MonoBehaviour
 
         if (playerCharacter == null)
         {
-            Debug.LogError("PlayerHealthBarUI: Player Character не найден!");
+            Debug.LogError("PlayerHealthBarUI: Player Character not found!");
         }
         else if (playerCharacter.HealthComponent == null)
         {
-            Debug.LogError("PlayerHealthBarUI: У Player нет HealthComponent!");
+            Debug.LogError("PlayerHealthBarUI: Player doesn't have HealthComponent!");
         }
     }
 

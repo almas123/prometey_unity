@@ -2,30 +2,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Базовый generic класс для управления спауном объектов.
-/// Реализует общую логику спауна (DRY принцип).
-/// Наследники определяют специфичную логику через абстрактные методы (Open/Closed, Template Method Pattern).
+/// Base generic class for managing object spawning.
+/// Implements common spawn logic (DRY principle).
+/// Child classes define specific logic via abstract methods (Open/Closed, Template Method Pattern).
 /// </summary>
-/// <typeparam name="T">Тип спаунимого объекта (должен быть MonoBehaviour)</typeparam>
+/// <typeparam name="T">Type of spawned object (must be MonoBehaviour)</typeparam>
 public abstract class SpawnController<T> : MonoBehaviour, ISpawner where T : MonoBehaviour
 {
     [Header("Configuration")]
     [SerializeField] protected SpawnConfig config;
 
     [Header("Spawn Center")]
-    [Tooltip("Центр спауна. Если null, используется Transform этого объекта.")]
+    [Tooltip("Spawn center. If null, uses this object's Transform.")]
     [SerializeField] protected Transform spawnCenter;
 
     [Header("Auto Start")]
     [SerializeField] protected bool autoStart = true;
 
-    // Список активных заспауненных объектов
+    // List of active spawned objects
     protected List<T> activeObjects = new List<T>();
 
-    // Таймер для спауна
+    // Spawn timer
     protected float spawnTimer;
 
-    // Флаг активности спауна
+    // Spawn active flag
     protected bool isSpawning = false;
 
     #region ISpawner Implementation
@@ -49,20 +49,20 @@ public abstract class SpawnController<T> : MonoBehaviour, ISpawner where T : Mon
 
     protected virtual void Start()
     {
-        // Валидация
+        // Validation
         if (config == null)
         {
-            Debug.LogError($"{GetType().Name}: SpawnConfig не назначен!");
+            Debug.LogError($"{GetType().Name}: SpawnConfig not assigned!");
             return;
         }
 
-        // Установить центр спауна
+        // Set spawn center
         if (spawnCenter == null)
         {
             spawnCenter = transform;
         }
 
-        // Автостарт если включен
+        // Auto start if enabled
         if (autoStart)
         {
             StartSpawning();
@@ -74,13 +74,13 @@ public abstract class SpawnController<T> : MonoBehaviour, ISpawner where T : Mon
         if (!isSpawning || config == null)
             return;
 
-        // Обновляем таймер
+        // Update timer
         spawnTimer -= Time.deltaTime;
 
-        // Очищаем уничтоженные объекты
+        // Cleanup destroyed objects
         CleanupDestroyedObjects();
 
-        // Проверяем возможность спауна
+        // Check if can spawn
         if (spawnTimer <= 0f && CanSpawn())
         {
             TrySpawnObject();
@@ -90,10 +90,10 @@ public abstract class SpawnController<T> : MonoBehaviour, ISpawner where T : Mon
 
     #endregion
 
-    #region Protected Methods (Общая логика)
+    #region Protected Methods (Common Logic)
 
     /// <summary>
-    /// Попытка заспаунить объект.
+    /// Attempts to spawn an object.
     /// </summary>
     protected virtual void TrySpawnObject()
     {
@@ -107,9 +107,9 @@ public abstract class SpawnController<T> : MonoBehaviour, ISpawner where T : Mon
     }
 
     /// <summary>
-    /// Генерирует случайную позицию вокруг центра спауна.
+    /// Generates random position around spawn center.
     /// </summary>
-    /// <returns>Случайная позиция в заданном радиусе</returns>
+    /// <returns>Random position within specified radius</returns>
     protected virtual Vector3 GetRandomSpawnPosition()
     {
         if (spawnCenter == null)
@@ -118,13 +118,13 @@ public abstract class SpawnController<T> : MonoBehaviour, ISpawner where T : Mon
             return Vector3.zero;
         }
 
-        // Генерируем случайный угол
+        // Generate random angle
         float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
 
-        // Генерируем случайное расстояние в заданном диапазоне
+        // Generate random distance within range
         float distance = Random.Range(config.MinSpawnDistance, config.MaxSpawnDistance);
 
-        // Вычисляем позицию относительно центра
+        // Calculate position relative to center
         Vector3 offset = new Vector3(
             Mathf.Cos(angle) * distance,
             0f,
@@ -132,13 +132,13 @@ public abstract class SpawnController<T> : MonoBehaviour, ISpawner where T : Mon
         );
 
         Vector3 spawnPosition = spawnCenter.position + offset;
-        spawnPosition.y = spawnCenter.position.y; // Сохраняем Y координату центра
+        spawnPosition.y = spawnCenter.position.y; // Preserve Y coordinate of center
 
         return spawnPosition;
     }
 
     /// <summary>
-    /// Очищает список от уничтоженных объектов.
+    /// Cleans list from destroyed objects.
     /// </summary>
     protected virtual void CleanupDestroyedObjects()
     {
@@ -146,9 +146,9 @@ public abstract class SpawnController<T> : MonoBehaviour, ISpawner where T : Mon
     }
 
     /// <summary>
-    /// Проверяет возможность спауна нового объекта.
+    /// Checks if new object can be spawned.
     /// </summary>
-    /// <returns>true если можно спаунить, false иначе</returns>
+    /// <returns>true if can spawn, false otherwise</returns>
     protected virtual bool CanSpawn()
     {
         return activeObjects.Count < GetMaxObjectCount();
@@ -156,26 +156,26 @@ public abstract class SpawnController<T> : MonoBehaviour, ISpawner where T : Mon
 
     #endregion
 
-    #region Abstract Methods (Должны быть реализованы в наследниках)
+    #region Abstract Methods (Must be implemented in child classes)
 
     /// <summary>
-    /// Создает и инициализирует новый объект.
-    /// Наследники реализуют специфичную логику спауна.
+    /// Creates and initializes new object.
+    /// Child classes implement specific spawn logic.
     /// </summary>
-    /// <returns>Заспауненный объект или null если спаун не удался</returns>
+    /// <returns>Spawned object or null if spawn failed</returns>
     protected abstract T SpawnObject();
 
     /// <summary>
-    /// Вызывается после успешного спауна объекта.
-    /// Используется для дополнительной инициализации.
+    /// Called after successful object spawn.
+    /// Used for additional initialization.
     /// </summary>
-    /// <param name="spawnedObject">Заспауненный объект</param>
+    /// <param name="spawnedObject">Spawned object</param>
     protected abstract void OnObjectSpawned(T spawnedObject);
 
     /// <summary>
-    /// Возвращает максимальное количество объектов которые могут быть заспаунены одновременно.
+    /// Returns maximum number of objects that can be spawned simultaneously.
     /// </summary>
-    /// <returns>Максимальное количество</returns>
+    /// <returns>Maximum count</returns>
     protected abstract int GetMaxObjectCount();
 
     #endregion
@@ -183,7 +183,7 @@ public abstract class SpawnController<T> : MonoBehaviour, ISpawner where T : Mon
     #region Public API
 
     /// <summary>
-    /// Возвращает список всех активных объектов.
+    /// Returns list of all active objects.
     /// </summary>
     public IReadOnlyList<T> GetActiveObjects()
     {
@@ -191,7 +191,7 @@ public abstract class SpawnController<T> : MonoBehaviour, ISpawner where T : Mon
     }
 
     /// <summary>
-    /// Уничтожает все активные объекты.
+    /// Destroys all active objects.
     /// </summary>
     public virtual void ClearAllObjects()
     {

@@ -1,31 +1,31 @@
 using UnityEngine;
 
 /// <summary>
-/// Централизованная утилита для поиска игровых объектов.
-/// Устраняет дублирование кода поиска игрока (DRY принцип).
+/// Centralized utility for finding game objects.
+/// Eliminates code duplication for player finding (DRY principle).
 /// </summary>
 public static class GameObjectFinder
 {
     private const string PlayerTag = "Player";
 
     /// <summary>
-    /// Находит игрока и возвращает компонент указанного типа.
+    /// Finds player and returns component of specified type.
     /// </summary>
-    /// <typeparam name="T">Тип компонента для поиска</typeparam>
-    /// <returns>Компонент игрока или null если не найден</returns>
+    /// <typeparam name="T">Component type to find</typeparam>
+    /// <returns>Player component or null if not found</returns>
     public static T FindPlayer<T>() where T : Component
     {
         GameObject player = GameObject.FindGameObjectWithTag(PlayerTag);
         if (player == null)
         {
-            Debug.LogWarning($"GameObjectFinder: Игрок с тегом '{PlayerTag}' не найден!");
+            Debug.LogWarning($"GameObjectFinder: Player with tag '{PlayerTag}' not found!");
             return null;
         }
 
         T component = player.GetComponent<T>();
         if (component == null)
         {
-            Debug.LogWarning($"GameObjectFinder: У игрока нет компонента {typeof(T).Name}!");
+            Debug.LogWarning($"GameObjectFinder: Player doesn't have component {typeof(T).Name}!");
             return null;
         }
 
@@ -33,15 +33,15 @@ public static class GameObjectFinder
     }
 
     /// <summary>
-    /// Находит Transform игрока.
+    /// Finds player Transform.
     /// </summary>
-    /// <returns>Transform игрока или null если не найден</returns>
+    /// <returns>Player Transform or null if not found</returns>
     public static Transform FindPlayerTransform()
     {
         GameObject player = GameObject.FindGameObjectWithTag(PlayerTag);
         if (player == null)
         {
-            Debug.LogWarning($"GameObjectFinder: Игрок с тегом '{PlayerTag}' не найден!");
+            Debug.LogWarning($"GameObjectFinder: Player with tag '{PlayerTag}' not found!");
             return null;
         }
 
@@ -49,15 +49,15 @@ public static class GameObjectFinder
     }
 
     /// <summary>
-    /// Находит GameObject игрока.
+    /// Finds player GameObject.
     /// </summary>
-    /// <returns>GameObject игрока или null если не найден</returns>
+    /// <returns>Player GameObject or null if not found</returns>
     public static GameObject FindPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag(PlayerTag);
         if (player == null)
         {
-            Debug.LogWarning($"GameObjectFinder: Игрок с тегом '{PlayerTag}' не найден!");
+            Debug.LogWarning($"GameObjectFinder: Player with tag '{PlayerTag}' not found!");
             return null;
         }
 

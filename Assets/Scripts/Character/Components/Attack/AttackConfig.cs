@@ -1,25 +1,25 @@
 using UnityEngine;
 
 /// <summary>
-/// Конфигурация параметров атаки.
-/// ScriptableObject позволяет создавать разные профили атаки (Open/Closed Principle).
+/// Attack parameters configuration.
+/// ScriptableObject allows creating different attack profiles (Open/Closed Principle).
 /// </summary>
 [CreateAssetMenu(fileName = "AttackConfig", menuName = "Configs/Character/Attack Config")]
 public class AttackConfig : ScriptableObject
 {
     [Header("Damage")]
-    [Tooltip("Урон наносимый при атаке")]
+    [Tooltip("Damage dealt per attack")]
     [SerializeField] private float damage = 10f;
 
     [Header("Range")]
-    [Tooltip("Дальность атаки (расстояние для нанесения урона)")]
+    [Tooltip("Attack range (distance for dealing damage)")]
     [SerializeField] private float attackRange = 2f;
 
-    [Tooltip("Зона обнаружения цели (радиус агрессии)")]
+    [Tooltip("Target detection zone (aggression radius)")]
     [SerializeField] private float attackZone = 30f;
 
     [Header("Cooldown")]
-    [Tooltip("Задержка между атаками в секундах")]
+    [Tooltip("Delay between attacks in seconds")]
     [SerializeField] private float attackCooldown = 1f;
 
     public float Damage => damage;
@@ -29,7 +29,7 @@ public class AttackConfig : ScriptableObject
 
     private void OnValidate()
     {
-        // Валидация значений
+        // Validate values
         if (damage < 0f)
             damage = 0f;
 

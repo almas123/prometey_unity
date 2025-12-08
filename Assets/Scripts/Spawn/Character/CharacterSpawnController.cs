@@ -1,10 +1,10 @@
 using UnityEngine;
 
 /// <summary>
-/// Контроллер спауна персонажей-врагов.
-/// Наследует от SpawnController (DRY принцип) и добавляет специфику врагов.
-/// Использует GameObjectFinder для поиска игрока (DRY).
-/// Использует публичный API SetTarget() вместо рефлексии (KISS).
+/// Enemy character spawn controller.
+/// Inherits from SpawnController (DRY principle) and adds enemy-specific logic.
+/// Uses GameObjectFinder to find player (DRY).
+/// Uses public API SetTarget() instead of reflection (KISS).
 /// </summary>
 public class CharacterSpawnController : SpawnController<EnemyCharacter>
 {
@@ -15,52 +15,52 @@ public class CharacterSpawnController : SpawnController<EnemyCharacter>
 
     protected override void Start()
     {
-        // Валидация конфига
+        // Validate config
         if (config is CharacterSpawnConfig charConfig)
         {
             characterConfig = charConfig;
         }
         else
         {
-            Debug.LogError("CharacterSpawnController: Конфиг должен быть типа CharacterSpawnConfig!");
+            Debug.LogError("CharacterSpawnController: Config must be of type CharacterSpawnConfig!");
             return;
         }
 
-        // Поиск игрока через утилиту (DRY принцип)
+        // Find player via utility (DRY principle)
         playerCharacter = GameObjectFinder.FindPlayer<Character>();
         if (playerCharacter == null)
         {
-            Debug.LogError("CharacterSpawnController: Игрок не найден!");
+            Debug.LogError("CharacterSpawnController: Player not found!");
             return;
         }
 
-        // Установить центр спауна на игрока если не указан
+        // Set spawn center to player if not specified
         if (spawnCenter == null)
         {
             spawnCenter = playerCharacter.transform;
         }
 
-        // Инициализация сложности
+        // Initialize difficulty
         currentMaxEnemies = characterConfig.startingMaxEnemies;
 
-        // Вызов базового Start
+        // Call base Start
         base.Start();
     }
 
     protected override void Update()
     {
-        // Обновляем игровое время для системы сложности
+        // Update game time for difficulty system
         gameTime += Time.deltaTime;
         UpdateDifficulty();
 
-        // Вызов базового Update (управление таймером и спауном)
+        // Call base Update (timer and spawn management)
         base.Update();
     }
 
     #region Difficulty Scaling
 
     /// <summary>
-    /// Обновляет сложность игры в зависимости от времени.
+    /// Updates game difficulty based on time elapsed.
     /// </summary>
     private void UpdateDifficulty()
     {
@@ -80,20 +80,20 @@ public class CharacterSpawnController : SpawnController<EnemyCharacter>
     {
         if (characterConfig.enemyPrefab == null)
         {
-            Debug.LogWarning("CharacterSpawnController: Enemy prefab не установлен!");
+            Debug.LogWarning("CharacterSpawnController: Enemy prefab not assigned!");
             return null;
         }
 
-        // Получить случайную позицию из базового класса
+        // Get random position from base class
         Vector3 spawnPosition = GetRandomSpawnPosition();
 
-        // Создать врага
+        // Create enemy
         GameObject enemyObject = Instantiate(characterConfig.enemyPrefab, spawnPosition, Quaternion.identity);
         EnemyCharacter enemy = enemyObject.GetComponent<EnemyCharacter>();
 
         if (enemy == null)
         {
-            Debug.LogWarning("CharacterSpawnController: У префаба нет компонента EnemyCharacter!");
+            Debug.LogWarning("CharacterSpawnController: Prefab doesn't have EnemyCharacter component!");
             Destroy(enemyObject);
             return null;
         }
@@ -103,7 +103,7 @@ public class CharacterSpawnController : SpawnController<EnemyCharacter>
 
     protected override void OnObjectSpawned(EnemyCharacter enemy)
     {
-        // Установить цель врагу через публичный API (KISS принцип, без рефлексии)
+        // Set target to enemy via public API (KISS principle, no reflection)
         enemy.SetTarget(playerCharacter);
     }
 
@@ -114,10 +114,10 @@ public class CharacterSpawnController : SpawnController<EnemyCharacter>
 
     protected override void CleanupDestroyedObjects()
     {
-        // Удаляем null объекты
+        // Remove null objects
         base.CleanupDestroyedObjects();
 
-        // Удаляем мертвых врагов
+        // Remove dead enemies
         for (int i = activeObjects.Count - 1; i >= 0; i--)
         {
             if (activeObjects[i] != null &&
@@ -135,7 +135,7 @@ public class CharacterSpawnController : SpawnController<EnemyCharacter>
     #region Public API
 
     /// <summary>
-    /// Получить текущее максимальное количество врагов.
+    /// Get current maximum number of enemies.
     /// </summary>
     public int GetCurrentMaxEnemies()
     {
@@ -143,7 +143,7 @@ public class CharacterSpawnController : SpawnController<EnemyCharacter>
     }
 
     /// <summary>
-    /// Получить игровое время в секундах.
+    /// Get game time in seconds.
     /// </summary>
     public float GetGameTime()
     {
@@ -151,7 +151,7 @@ public class CharacterSpawnController : SpawnController<EnemyCharacter>
     }
 
     /// <summary>
-    /// Получить игровое время в минутах.
+    /// Get game time in minutes.
     /// </summary>
     public float GetGameTimeInMinutes()
     {

@@ -6,7 +6,7 @@ public class AttackComponent : IAttackComponent
     private Character character;
     private float lastAttackTime;
 
-    // Значения по умолчанию для обратной совместимости
+    // Default values for backward compatibility
     private const float DefaultDamage = 10f;
     private const float DefaultAttackRange = 2f;
     private const float DefaultAttackZone = 30f;
@@ -39,7 +39,7 @@ public class AttackComponent : IAttackComponent
     }
 
     /// <summary>
-    /// Инициализация с конфигурацией.
+    /// Initialize with configuration.
     /// </summary>
     public void Initialize(Character character, AttackConfig attackConfig)
     {
@@ -48,7 +48,7 @@ public class AttackComponent : IAttackComponent
 
         if (config == null)
         {
-            Debug.LogWarning($"AttackComponent: AttackConfig не назначен для {character.name}. Используются значения по умолчанию.");
+            Debug.LogWarning($"AttackComponent: AttackConfig not assigned for {character.name}. Using default values.");
         }
     }
 }

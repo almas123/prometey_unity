@@ -1,21 +1,21 @@
 using UnityEngine;
 
 /// <summary>
-/// Базовая конфигурация для системы спауна.
-/// ScriptableObject позволяет настраивать спаунер через Unity Editor (Open/Closed Principle).
+/// Base configuration for spawn system.
+/// ScriptableObject allows configuring spawner via Unity Editor (Open/Closed Principle).
 /// </summary>
 [CreateAssetMenu(fileName = "SpawnConfig", menuName = "Configs/Spawn/Spawn Config", order = 0)]
 public class SpawnConfig : ScriptableObject
 {
     [Header("Spawn Timing")]
-    [Tooltip("Интервал между спаунами в секундах")]
+    [Tooltip("Interval between spawns in seconds")]
     [SerializeField] private float spawnInterval = 2f;
 
     [Header("Spawn Position")]
-    [Tooltip("Минимальное расстояние от центра спауна")]
+    [Tooltip("Minimum distance from spawn center")]
     [SerializeField] private float minSpawnDistance = 10f;
 
-    [Tooltip("Максимальное расстояние от центра спауна")]
+    [Tooltip("Maximum distance from spawn center")]
     [SerializeField] private float maxSpawnDistance = 15f;
 
     public float SpawnInterval => spawnInterval;
@@ -24,7 +24,7 @@ public class SpawnConfig : ScriptableObject
 
     private void OnValidate()
     {
-        // Валидация значений
+        // Validate values
         if (spawnInterval < 0.1f)
             spawnInterval = 0.1f;
 

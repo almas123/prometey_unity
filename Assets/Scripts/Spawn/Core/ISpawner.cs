@@ -1,21 +1,21 @@
 /// <summary>
-/// Интерфейс для всех спаунеров в игре.
-/// Следует принципу Interface Segregation (SOLID) - минимальный контракт.
+/// Interface for all spawners in the game.
+/// Follows Interface Segregation Principle (SOLID) - minimal contract.
 /// </summary>
 public interface ISpawner
 {
     /// <summary>
-    /// Текущее количество активных объектов.
+    /// Current number of active objects.
     /// </summary>
     int ActiveObjectCount { get; }
 
     /// <summary>
-    /// Начинает процесс спауна объектов.
+    /// Starts object spawning process.
     /// </summary>
     void StartSpawning();
 
     /// <summary>
-    /// Останавливает процесс спауна объектов.
+    /// Stops object spawning process.
     /// </summary>
     void StopSpawning();
 }

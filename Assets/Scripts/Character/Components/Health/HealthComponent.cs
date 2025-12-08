@@ -6,7 +6,7 @@ public class HealthComponent : IHealthComponent
     private float health;
     private float maxHealth;
 
-    // Значения по умолчанию для обратной совместимости
+    // Default values for backward compatibility
     private const float DefaultMaxHealth = 100f;
     private const float DefaultStartHealth = 100f;
 
@@ -22,7 +22,7 @@ public class HealthComponent : IHealthComponent
     public float MaxHealth => maxHealth;
 
     /// <summary>
-    /// Конструктор по умолчанию для обратной совместимости.
+    /// Default constructor for backward compatibility.
     /// </summary>
     public HealthComponent()
     {
@@ -31,7 +31,7 @@ public class HealthComponent : IHealthComponent
     }
 
     /// <summary>
-    /// Конструктор с конфигурацией.
+    /// Constructor with configuration.
     /// </summary>
     public HealthComponent(HealthConfig config)
     {
@@ -42,7 +42,7 @@ public class HealthComponent : IHealthComponent
         }
         else
         {
-            Debug.LogWarning("HealthComponent: HealthConfig не назначен. Используются значения по умолчанию.");
+            Debug.LogWarning("HealthComponent: HealthConfig not assigned. Using default values.");
             maxHealth = DefaultMaxHealth;
             health = DefaultStartHealth;
         }

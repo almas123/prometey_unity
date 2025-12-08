@@ -19,52 +19,52 @@ public class CameraFollow : MonoBehaviour
     
     private void Start()
     {
-        // Если цель не установлена, ищем игрока через утилиту (DRY принцип)
+        // If target not set, find player via utility (DRY principle)
         if (target == null)
         {
             target = GameObjectFinder.FindPlayerTransform();
         }
 
-        // Устанавливаем начальную позицию камеры
+        // Set initial camera position
         if (target != null)
         {
             transform.position = target.position + offset;
         }
     }
-    
+
     private void LateUpdate()
     {
         if (target == null)
             return;
-        
-        // Вычисляем желаемую позицию камеры
+
+        // Calculate desired camera position
         Vector3 desiredPosition = target.position + offset;
-        
-        // Применяем ограничения, если они включены
+
+        // Apply bounds if enabled
         if (useBounds)
         {
             desiredPosition.x = Mathf.Clamp(desiredPosition.x, minX, maxX);
             desiredPosition.z = Mathf.Clamp(desiredPosition.z, minZ, maxZ);
         }
-        
-        // Плавно перемещаем камеру к желаемой позиции
+
+        // Smoothly move camera to desired position
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
         transform.position = smoothedPosition;
-        
-        // Поворачиваем камеру к цели, если включено
+
+        // Rotate camera towards target if enabled
         if (lookAtTarget)
         {
             transform.LookAt(target);
         }
     }
-    
-    // Метод для изменения цели во время игры
+
+    // Method to change target during gameplay
     public void SetTarget(Transform newTarget)
     {
         target = newTarget;
     }
-    
-    // Метод для изменения смещения камеры
+
+    // Method to change camera offset
     public void SetOffset(Vector3 newOffset)
     {
         offset = newOffset;
